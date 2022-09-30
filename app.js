@@ -3,9 +3,13 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
+<<<<<<< HEAD
 const session = require('express-session');
 const passport = require('passport');
 const passportLocalMongoose = require('passport-local-mongoose');
+=======
+const md5 = require('md5');
+>>>>>>> parent of 8b6f041 (Added Salting to hashing)
 
 const app = express();
 
@@ -47,7 +51,24 @@ app.route("/login")
     res.render("login");
 })
 .post(function(req, res){
+<<<<<<< HEAD
     
+=======
+    const username = req.body.username;
+    const password = md5(req.body.password);
+
+    User.findOne({email: username}, function(err, foundUser){
+        if (err) {
+            console.log(err);
+        } else {
+            if(foundUser) {
+                if(foundUser.password === password) {
+                    res.render("secrets");
+                }
+            }
+        }
+    })
+>>>>>>> parent of 8b6f041 (Added Salting to hashing)
 });
 
 app.route("/register")
@@ -55,8 +76,22 @@ app.route("/register")
     res.render("register");
 })
 .post(function(req, res){
+    const newUser = new User({
+        email: req.body.username,
+        password: md5(req.body.password)
+    });
 
+<<<<<<< HEAD
     
+=======
+    newUser.save(function(err){
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("secrets");
+        }
+    });
+>>>>>>> parent of 8b6f041 (Added Salting to hashing)
 });
 
 
